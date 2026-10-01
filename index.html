@@ -108,6 +108,38 @@ body.is-locked > :not(#passwordGate) {
   line-height: 1.5;
 }
 
+.password-card .password-brand {
+  margin: -12px 0 22px;
+  color: #bfdbfe;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.password-credit {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(51, 65, 85, 0.65);
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.password-credit .credit-heart {
+  color: #fb7185;
+}
+
+.password-credit .credit-name {
+  color: #e2e8f0;
+  font-family: 'Dancing Script', 'Brush Script MT', cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
 .password-card label {
   display: block;
   margin-bottom: 8px;
@@ -847,10 +879,17 @@ body.is-locked > :not(#passwordGate) {
       <div class="password-icon" aria-hidden="true">🔒</div>
       <h1 id="passwordTitle">Password required</h1>
       <p>Enter the password to open the Name Label Printing System.</p>
+      <p class="password-brand">A weBnovA product</p>
       <label for="sitePassword">Password</label>
       <input id="sitePassword" name="password" type="password" autocomplete="current-password" required autofocus>
       <p class="password-error" id="passwordError" role="alert" aria-live="polite"></p>
       <button class="btn btn-primary" type="submit">Unlock</button>
+      <div class="password-credit" aria-label="Developed with love by weBnovA">
+        <span>Developed with</span>
+        <span class="credit-heart" aria-hidden="true">♥</span>
+        <span>by</span>
+        <span class="credit-name">weBnovA</span>
+      </div>
     </form>
   </section>
 
