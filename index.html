@@ -55,6 +55,99 @@ body {
   flex-direction: column;
 }
 
+body.is-locked > :not(#passwordGate) {
+  display: none !important;
+}
+
+#passwordGate {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0b0f19 72%);
+}
+
+#passwordGate[hidden] {
+  display: none;
+}
+
+.password-card {
+  width: min(100%, 400px);
+  padding: 36px;
+  border: 1px solid var(--bg-card-border);
+  border-radius: 18px;
+  background: rgba(30, 41, 59, 0.94);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+}
+
+.password-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 22px;
+  border-radius: 14px;
+  background: rgba(59, 130, 246, 0.14);
+  font-size: 1.4rem;
+}
+
+.password-card h1 {
+  margin-bottom: 8px;
+  font-size: 1.45rem;
+}
+
+.password-card p {
+  margin-bottom: 24px;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.password-card label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.password-card input {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  outline: none;
+  background: #0f172a;
+  color: var(--text-main);
+  font: inherit;
+}
+
+.password-card input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.password-card button {
+  width: 100%;
+  justify-content: center;
+  padding: 11px 16px;
+}
+
+.password-error {
+  min-height: 1.25em;
+  margin: 0 0 12px !important;
+  color: #fca5a5 !important;
+  font-size: 0.85rem !important;
+}
+
+@media (max-width: 480px) {
+  .password-card {
+    padding: 28px 22px;
+  }
+}
+
 /* ==========================================================
    Screen Header & Controls (Hidden during print)
    ========================================================== */
@@ -708,7 +801,19 @@ body {
 }
   </style>
 </head>
-<body>
+<body class="is-locked">
+
+  <section id="passwordGate" aria-labelledby="passwordTitle">
+    <form class="password-card" id="passwordForm">
+      <div class="password-icon" aria-hidden="true">🔒</div>
+      <h1 id="passwordTitle">Password required</h1>
+      <p>Enter the password to open the Name Label Printing System.</p>
+      <label for="sitePassword">Password</label>
+      <input id="sitePassword" name="password" type="password" autocomplete="current-password" required autofocus>
+      <p class="password-error" id="passwordError" role="alert" aria-live="polite"></p>
+      <button class="btn btn-primary" type="submit">Unlock</button>
+    </form>
+  </section>
 
   <!-- Top App Navigation & Controls (Hidden when printing) -->
   <header class="app-header no-print">
@@ -887,6 +992,7 @@ body {
 // ==========================================================
 // Paste your deployed Google Apps Script Web App URL below:
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwojE0UJ_XlsT6vNw-EEvHje3iqbKiJf4edbP_Z2vmSI3BA8IWgrXP5RZxfcqfYxv5qOw/exec";
+const ACCESS_PASSWORD = "Balajiai..01";
 
 // Configurable label dimensions, paddings, and font sizes
 const LABEL_SETTINGS = {
@@ -1088,6 +1194,27 @@ let currentRecords = [];
 // ==========================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  const passwordForm = document.getElementById("passwordForm");
+  const passwordInput = document.getElementById("sitePassword");
+  const passwordError = document.getElementById("passwordError");
+  const passwordGate = document.getElementById("passwordGate");
+
+  passwordForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (passwordInput.value !== ACCESS_PASSWORD) {
+      passwordError.textContent = "Incorrect password. Please try again.";
+      passwordInput.select();
+      return;
+    }
+
+    document.body.classList.remove("is-locked");
+    passwordGate.hidden = true;
+    initApp();
+  });
+});
+
+function initApp() {
   initUIElements();
   loadSavedSettings();
   applySettingsToStyles();
@@ -1110,7 +1237,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderLabels(currentRecords);
     showStatus("Previewing with sample data. To connect your live sheet, update GOOGLE_SCRIPT_URL in index.html.", "info");
   }
-});
+}
 
 // ==========================================================
 // 🎨 3. UI EVENT LISTENERS
