@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   
   <style>
 /* ==========================================================
@@ -683,6 +684,32 @@ body.is-locked > :not(#passwordGate) {
   margin-bottom: 12px;
 }
 
+.site-credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 14px 20px 18px;
+  border-top: 1px solid rgba(51, 65, 85, 0.65);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.site-credit .credit-heart {
+  color: #fb7185;
+  font-size: 1rem;
+}
+
+.site-credit .credit-name {
+  color: #e2e8f0;
+  font-family: 'Dancing Script', 'Brush Script MT', cursive;
+  font-size: 1.35rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
@@ -977,6 +1004,13 @@ body.is-locked > :not(#passwordGate) {
       <!-- A4 Sheets will be dynamically rendered here -->
     </div>
   </main>
+
+  <footer class="site-credit no-print" aria-label="Developer credit">
+    <span>Developed with</span>
+    <span class="credit-heart" aria-label="love">♥</span>
+    <span>by</span>
+    <span class="credit-name">weBnovA</span>
+  </footer>
 
   <script>
 /**
